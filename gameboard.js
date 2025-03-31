@@ -4,6 +4,7 @@ export default class Gameboard {
     constructor(size = 10) {
         this.boardSize = size;
         this.tilesList = Array(Math.pow(this.boardSize, 2)).fill(null);
+        this.shipList = [];
     }
 
     #convertToIndex(coords) {
@@ -28,6 +29,10 @@ export default class Gameboard {
         }
 
         let newShip = new Ship(size);
+        this.shipList.push({
+            size: size,
+            ship: newShip
+        })
 
         //insert initial position
         //if on x insert on initial + 1
@@ -67,5 +72,27 @@ export default class Gameboard {
         }
 
         return false;
+    }
+
+    receiveAttack(coords) {
+        let position = this.#convertToIndex(coords);
+
+        if(this.tilesList[position] === null) {
+            this.tilesList.splice(position, 0, 'miss');
+        } else if (this.tilesList[position] instanceof Ship) {
+            this.tilesList[position].hit();
+            this.tilesList.splice(position, 0, 'hit');
+        }
+    }
+
+    //returns false if one or more ships are still alive, else returns true
+    areAllSunk() {
+        for(let i = 0; i < this.shipList.length; i++) {
+            if(!this.shipList[i].ship.isSunk()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
