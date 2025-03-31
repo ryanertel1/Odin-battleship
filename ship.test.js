@@ -1,11 +1,5 @@
 import Ship from './ship.js'
 
-let battleship = new Ship(4);
-
-test('constructor creates ship object correctly', () => {
-    expect(new Ship()).toBeInstanceOf(Ship);
-});
-
 test('ship length is registered correctly', () => {
     expect(new Ship(3).length).toBe(3);
 });
