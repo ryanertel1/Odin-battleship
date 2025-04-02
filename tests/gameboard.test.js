@@ -1,5 +1,5 @@
-import Gameboard from './gameboard.js'
-import Ship from './ship.js'
+import Gameboard from '../gameboard.js'
+import Ship from '../ship.js'
 
 test('check gameboard size', () => {
     expect(new Gameboard(10).tilesList.length).toBe(Math.pow(10, 2));
