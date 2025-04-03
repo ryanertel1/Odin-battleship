@@ -1,0 +1,25 @@
+:root {
+    background-color: darkgray;
+}
+
+.game-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: grid;
+    grid-template-columns: auto 50px auto;
+    background-color: aqua;
+}
+
+.board-container{
+    background-color: darkorange;
+}
+
+.board-container-1 {
+    background-color: blue;
+}
+
+.board-container-2 {
+    background-color: coral;
+}

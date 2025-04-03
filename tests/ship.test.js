@@ -1,4 +1,4 @@
-import Ship from '../ship.js'
+import Ship from '../src/ship.js'
 
 test('ship length is registered correctly', () => {
     expect(new Ship(3).length).toBe(3);
