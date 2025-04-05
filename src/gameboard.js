@@ -21,9 +21,7 @@ export default class Gameboard {
     //expects coords to be the top-left corner of the ship that is being placed
     //expects direction to be 'x' for horizontal or 'y' for vertical
     //returns true if ship is successfully placed, else returns false
-    placeShip(coords, direction, size) {
-        let pos = this.#convertToIndex(coords);
-
+    placeShip(pos, direction, size) {
         if(this.#checkPlace(pos, direction, size) === true) {
             return false;
         }
@@ -39,9 +37,9 @@ export default class Gameboard {
         //if on y insert on initial + 1*boardSize
         for(let i = 0; i < size; i++) {
             if(direction === 'x') {
-                this.tilesList.splice(pos + i, 0, newShip);
+                this.tilesList.splice(pos + i, 1, newShip);
             } else {
-                this.tilesList.splice(pos + i * this.boardSize, 0, newShip);
+                this.tilesList.splice(pos + i * this.boardSize, 1, newShip);
             }
         }
 

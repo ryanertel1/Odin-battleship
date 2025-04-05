@@ -1,5 +1,14 @@
 :root {
-    background-color: darkgray;
+    background-color: blue;
+}
+
+.gradient-box {
+    background-image: radial-gradient(circle, rgba(0,0,0, 0.1), rgba(0,0,0,0.4));
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .game-container {
@@ -9,17 +18,29 @@
     transform: translate(-50%,-50%);
     display: grid;
     grid-template-columns: auto 50px auto;
-    background-color: aqua;
 }
 
 .board-container{
-    background-color: darkorange;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
 }
 
-.board-container-1 {
-    background-color: blue;
+.cell {
+    outline: 1px solid white;
+    height: 30px;
+    width: 30px;
+    margin: 2px;
 }
 
-.board-container-2 {
-    background-color: coral;
+.cell-selected {
+    background-color: lightgreen;
+}
+
+.cell-missed {
+    background-color: darkgray;
+}
+
+.cell-hit {
+    background-color: red;
 }
