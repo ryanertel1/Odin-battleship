@@ -29,7 +29,7 @@ export default class Gameboard {
         let newShip = new Ship(size);
         this.shipList.push({
             size: size,
-            ship: newShip
+            ship: newShip,
         })
 
         //insert initial position
@@ -37,10 +37,13 @@ export default class Gameboard {
         //if on y insert on initial + 1*boardSize
         for(let i = 0; i < size; i++) {
             if(direction === 'x') {
-                this.tilesList.splice(pos + i, 1, newShip);
+                var newIndex = pos+i;
+                this.tilesList.splice(newIndex, 1, newShip);
             } else {
-                this.tilesList.splice(pos + i * this.boardSize, 1, newShip);
+                var newIndex = pos + i * this.boardSize
+                this.tilesList.splice(newIndex, 1, newShip);
             }
+            newShip.indexList.push(newIndex);
         }
 
         return true;
@@ -49,7 +52,7 @@ export default class Gameboard {
     //returns true if any of the intended placement locations are filled, else returns false
     #checkPlace(pos, direction, size) {
         //checks if placement of ship would be out of boundary
-        if(direction === 'x' && pos + size > this.boardSize) {
+        if(direction === 'x' && pos % 10 + size > this.boardSize) {
             return true;
         }
         if (direction === 'y' && pos + (size * this.boardSize) > this.tilesList.length) {
@@ -72,14 +75,20 @@ export default class Gameboard {
         return false;
     }
 
-    receiveAttack(coords) {
-        let position = this.#convertToIndex(coords);
+    receiveAttack(position) {
+        let currentTile = this.tilesList[position];
 
-        if(this.tilesList[position] === null) {
-            this.tilesList.splice(position, 0, 'miss');
-        } else if (this.tilesList[position] instanceof Ship) {
-            this.tilesList[position].hit();
-            this.tilesList.splice(position, 0, 'hit');
+        if(currentTile === null) {
+            this.tilesList.splice(position, 1, 'miss');
+        } else if (currentTile instanceof Ship) {
+            currentTile.hit();
+            if(currentTile.sunk) {
+                for(let i = 0; i < currentTile.length; i++) {
+                    this.tilesList.splice(currentTile.indexList[i], 1, 'sunk');
+                }
+            } else {
+                this.tilesList.splice(position, 1, 'hit');
+            }
         }
     }
 

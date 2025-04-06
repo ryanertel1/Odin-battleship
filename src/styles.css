@@ -44,3 +44,7 @@
 .cell-hit {
     background-color: red;
 }
+
+.cell-sunk {
+    background-color: black;
+}

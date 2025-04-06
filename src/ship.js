@@ -3,17 +3,18 @@ export default class Ship {
         this.hits = null;
         this.length = length || null;
         this.sunk = false;
+        this.indexList = [];
     }
 
     hit() {
         if(this.sunk === false) {
             this.hits += 1;
-            this.isSunk();
+            this.#isSunk();
             return true;
         }
     }
 
-    isSunk() {
+    #isSunk() {
         if(this.hits >= this.length) {
             this.sunk = true;
             return true;

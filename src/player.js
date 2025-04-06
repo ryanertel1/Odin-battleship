@@ -5,9 +5,7 @@ export default class Player {
         this.isComputer = isComputer;
         this.gameboard = new Gameboard;
 
-        if(this.isComputer === true) {
-            this.#randomizeShips();
-        }
+        this.#randomizeShips();
     }
 
     #shipList = [5,4,3,3,2];
