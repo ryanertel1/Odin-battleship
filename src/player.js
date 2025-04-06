@@ -40,4 +40,19 @@ export default class Player {
 
         return('y');
     }
+
+    randomShot() {
+        let shotsTried = [];
+        let location = this.#pickRandomLocation();
+
+        while(!this.gameboard.receiveAttack(location)) {
+            location = this.#pickRandomLocation();
+
+            while(shotsTried.includes(location)) {
+                location = this.#pickRandomLocation();
+            }
+
+            shotsTried.push(location);
+        }
+    }
 }

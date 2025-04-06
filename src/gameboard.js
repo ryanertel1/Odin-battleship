@@ -75,11 +75,13 @@ export default class Gameboard {
         return false;
     }
 
+    //returns true if hit, returns false otherwise
     receiveAttack(position) {
         let currentTile = this.tilesList[position];
 
         if(currentTile === null) {
             this.tilesList.splice(position, 1, 'miss');
+            return true;
         } else if (currentTile instanceof Ship) {
             currentTile.hit();
             if(currentTile.sunk) {
@@ -89,13 +91,16 @@ export default class Gameboard {
             } else {
                 this.tilesList.splice(position, 1, 'hit');
             }
+            return true;
         }
+
+        return false;
     }
 
     //returns false if one or more ships are still alive, else returns true
     areAllSunk() {
         for(let i = 0; i < this.shipList.length; i++) {
-            if(!this.shipList[i].ship.isSunk()) {
+            if(!this.shipList[i].ship.sunk) {
                 return false;
             }
         }

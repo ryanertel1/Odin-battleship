@@ -3,6 +3,7 @@ import Player from './player.js';
 
 let computer = new Player(true);
 let person = new Player(false);
+let gameOver = false;
 const gameContainer = document.getElementById('gameContainer');
 
 const gameboard1 = document.createElement('div');
@@ -16,6 +17,12 @@ gameContainer.appendChild(gameboard2);
 
 updateGameboard(gameboard1, person);
 updateGameboard(gameboard2, computer);
+
+while(!gameOver) {
+    playRound();
+    updateGameboard(gameboard1, person);
+    updateGameboard(gameboard2, computer);
+}
 
 function updateGameboard(gameboardElement, currentPlayer) {
     let gameboardInfo = currentPlayer.gameboard;
@@ -48,6 +55,42 @@ function updateGameboard(gameboardElement, currentPlayer) {
 
         gameboardElement.appendChild(newCell);
     }
+}
+
+function playerTurn() {
+    randomShot(computer);
+    if(computer.gameboard.areAllSunk()) {
+        checkGameOver('player');
+        return true;
+    }
+    return false;
+}
+
+function computerTurn() {
+    randomShot(person);
+    if(person.gameboard.areAllSunk()) {
+        checkGameOver('computer');
+        return true;
+    }
+    return false;
+}
+
+function playRound() {
+    if(playerTurn()) {
+        return;
+    }
+    computerTurn();
+}
+
+function randomShot(target) {
+    if(!target.gameboard.areAllSunk()) {
+        target.randomShot();
+    }
+}
+
+function checkGameOver(winner) {
+    gameOver = true;
+    console.log(`game won by ${winner}`);
 }
 
 //Might choose to permanently deprecate if i implement drag & drop placement of ships
