@@ -18,12 +18,6 @@ gameContainer.appendChild(gameboard2);
 updateGameboard(gameboard1, person);
 updateGameboard(gameboard2, computer);
 
-while(!gameOver) {
-    playRound();
-    updateGameboard(gameboard1, person);
-    updateGameboard(gameboard2, computer);
-}
-
 function updateGameboard(gameboardElement, currentPlayer) {
     let gameboardInfo = currentPlayer.gameboard;
 
@@ -48,8 +42,7 @@ function updateGameboard(gameboardElement, currentPlayer) {
 
         if(currentPlayer.isComputer) {
             newCell.addEventListener('click', (e) => {
-                gameboardInfo.receiveAttack(e.target.id);
-                updateGameboard(gameboardElement, currentPlayer);
+                playerTurn(e.target.id);
             });
         }
 
@@ -57,29 +50,26 @@ function updateGameboard(gameboardElement, currentPlayer) {
     }
 }
 
-function playerTurn() {
-    randomShot(computer);
+function playerTurn(target) {
+    if(!computer.gameboard.receiveAttack(target)) {
+        return false;
+    }
+    updateGameboard(gameboard2, computer);
     if(computer.gameboard.areAllSunk()) {
-        checkGameOver('player');
+        setGameOver('player');
         return true;
     }
-    return false;
+    computerTurn();
 }
 
 function computerTurn() {
     randomShot(person);
+    updateGameboard(gameboard1, person);
     if(person.gameboard.areAllSunk()) {
-        checkGameOver('computer');
+        setGameOver('computer');
         return true;
     }
     return false;
-}
-
-function playRound() {
-    if(playerTurn()) {
-        return;
-    }
-    computerTurn();
 }
 
 function randomShot(target) {
@@ -88,9 +78,28 @@ function randomShot(target) {
     }
 }
 
-function checkGameOver(winner) {
+function setGameOver(winner) {
     gameOver = true;
     console.log(`game won by ${winner}`);
+    removeEvents();
+    resetGame();
+}
+
+function removeEvents() {
+    let childElements = gameboard2.children;
+    for(let i = 0; i < childElements.length; i++) {
+        let oldElement = childElements[i];
+        let newElement = oldElement.cloneNode();
+        oldElement.parentNode.replaceChild(newElement, oldElement);
+    }
+}
+
+function resetGame() {
+    computer = new Player(true);
+    person = new Player(false);
+    gameOver = false;
+    updateGameboard(gameboard1, person);
+    updateGameboard(gameboard2, computer);
 }
 
 //Might choose to permanently deprecate if i implement drag & drop placement of ships
